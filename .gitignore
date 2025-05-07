@@ -1,0 +1,15 @@
+# Ignore everything inside the data/ folder
+data/*
+
+# Allow specific files inside data/
+!data/Sample_input.csv
+
+# Ignore everything inside data/output/ (reset rule)
+data/output/*
+
+# Allow only Sample_output.csv inside data/output/
+!data/output/
+!data/output/Sample_output.csv
+
+.env
+

@@ -1,0 +1,117 @@
+---
+title: Dr. Uetz Reptile Project
+author:
+    - name: Yousra H
+      email: Hamidouy@vcu.edu
+organization: Virginia Commonwealth University
+format:
+    html:
+        theme: cosmo
+        toc: false
+        embed-resources: true
+        code-copy: true
+execute:
+  echo: true
+  eval: true
+  cache: false
+---
+
+# Introduction
+
+The **Dr. Uetz Reptile Project** is designed to organize and analyze species reference data efficiently while associating them with corresponding email addresses. This project consists of two main phases: **Sorting and Compiling Species Data** (Phase 1) and **Mass Emailing Program** (Phase 2). The first phase focuses on cleaning and structuring the dataset for further analysis, ensuring data integrity and accessibility.
+
+## **GITHUB Repository**
+[Project Repository](https://github.com/SQFOXY/Email-Project)
+
+
+# **Project Outline**
+## **Phase 1: Sorting and Compiling**
+
+### **Objective**
+Phase 1 aims to systematically process and compile species reference data and email lists, ensuring that the data is structured, filtered, and ready for further analysis. This step is crucial for maintaining data accuracy and relevance before proceeding to email communications in Phase 2.
+
+### **Steps in Phase 1**
+
+#### **1. Reading Input Data**
+   - The script reads two primary datasets:
+     - `Email_list.csv`: Contains reference numbers and email addresses.
+     - `ref# Specie.xlsx`: Contains species reference data with unique identifiers.
+
+#### **2. Counting and Merging Species Data**
+   - The script calculates the number of species associated with each reference number.
+   - The computed species count is then merged with the email dataset to create a single unified dataset.
+
+#### **3. Filtering Data Based on Species Count**
+   - The dataset is refined by selecting only references where the species count falls between **1 and 5** (inclusive). This ensures we are working with relevant and manageable data.
+
+#### **4. Cleaning and Validating Email Addresses**
+   - Entries with missing email addresses are removed to maintain data integrity.
+   - This step ensures that every reference number in the final dataset is associated with a valid email.
+
+#### **5. Final Merging of Filtered Data**
+   - The cleaned dataset is further merged with species reference data to provide a final, structured output.
+   - This results in a dataset that links species reference numbers with valid email addresses, ready for future processing.
+
+### **Output Files from Phase 1**
+
+📂 `output.csv` → Merged species count with email data.
+📂 `filtered_output.csv` → Filtered species count (1–5).
+📂 `filtered_email_list.csv` → Cleaned list with valid emails.
+📂 `species_email_output.csv` → Final dataset linking species with emails.
+
+## **Phase 2: Mass Emailing Program**
+
+### **Objective**
+Phase 2 automates the outreach process by sending personalized email requests to species reference contacts. The purpose is to collect updated species **photographs** using a centralized Google Form submission link.
+
+### **Updated Workflow**
+
+#### **1. Load Final Dataset**
+   - The script reads `species_email_output.csv`, which contains reference numbers, species names, and corresponding email addresses.
+
+#### **2. Grouping by Reference Number**
+   - Since multiple species may be associated with the same reference number (and email), the data is grouped so that **only one email is sent per reference**.
+
+#### **3. Personalized Email Generation**
+   - The email includes the **reference number** and a list of all associated species in a clear bullet-point format.
+
+#### **4. Subject Line Customization**
+   - Each email has a unique subject line formatted as:
+     - `Photo Request for Species - Reference {ref#}`
+
+#### **5. Google Form Integration**
+   - A link to a **Google Form** is included in the message body, asking recipients to upload photos of their species.
+
+#### **6. Secure Email Sending with Yagmail**
+   - Emails are sent through the `yagmail` library using credentials stored in a `.env` file and loaded securely with `python-dotenv`.
+   - A `test_mode` flag is included in the script to toggle between testing and actual email sending.
+
+#### **7. Error Handling and Logging**
+   - The script skips entries without valid email addresses.
+   - Failures are logged, and a clean summary of execution is printed at the end, including:
+     - Number of emails sent successfully
+     - Number of failures
+     - Number of skipped references and species
+
+### **Key Additions in Phase 2**
+
+- 📧 **One email per reference number** (not per species)
+- 🧾 **Dynamic subject line and body content**
+- 🔐 **Environment-based secure login**
+- 📊 **Summary statistics printed after execution**
+
+### **Output**
+
+- Emails were successfully sent to valid recipients.
+- The final script used: `Mass_Emailing.py`
+- A log of species with missing emails was also generated.
+
+### **Screenshot of Email Execution Summary**
+
+![Summary Output](images/Summary.png)
+
+### **Screenshot of Sent Email**
+
+The following screenshot shows a sample of the personalized email that was sent through the script using the yagmail SMTP configuration:
+
+![Sent Email Sample](images/Email.png)
